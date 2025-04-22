@@ -1,92 +1,124 @@
-```markdown
-# 🐜 Hexapod Gait Learning via Reinforcement Learning (SAC + PyBullet)
 
-This project demonstrates training a **hexapod robot** to walk using **Deep Reinforcement Learning (DRL)**. The hexapod is simulated in **PyBullet**, and trained using the **Soft Actor-Critic (SAC)** algorithm from `stable-baselines3`.
+---
 
-## 📽️ Demo
+# 🤖 Hexapod Gait Learning with Reinforcement Learning
 
-- The final trained model demonstrates the robot's gait and movement in a PyBullet simulation.
-- Videos are saved in the `./videos/` directory.
+Welcome to the project where a six-legged robot (hexapod) learns to walk using deep reinforcement learning! 🐜💡  
+Leveraging the Soft Actor-Critic (SAC) algorithm and PyBullet simulation, this project trains a hexapod to achieve stable and efficient locomotion.
 
-## 🧠 Algorithm Used
+---
 
-- **Soft Actor-Critic (SAC)**
-  - Off-policy actor-critic method
-  - Works well for continuous action spaces
-  - Stable and sample-efficient
+## 🎯 Project Goals
 
-## 🛠️ Tech Stack
+-  Simulate a 3-DOF per leg (18-DOF total) hexapod robot.
+-  Train the robot to walk using reinforcement learning.
+-  Record and visualize the learned gaits.
 
-- Python 🐍
-- [PyBullet](https://github.com/bulletphysics/bullet3)
-- [Stable-Baselines3](https://github.com/DLR-RM/stable-baselines3)
-- [Gym](https://github.com/openai/gym)
-- Numpy
-- Custom URDF-based hexapod robot
+---
 
-## 📁 Project Structure
+## 🛠️ Technologies Used
 
-```
-📦 Hexapod-RL
-├── hexapod_reinforcement.py    # Training script with PyBullet environment
-├── run_model.py                # Script to load and evaluate the trained model
-├── models/                     # Checkpoints and final model saved here
-├── videos/                     # Videos recorded during evaluation
-└── README.md                   # This file
-```
+-  Python 3.8+
+-  PyBullet (physics simulation)
+-  Stable-Baselines3 (reinforcement learning)
+-  OpenAI Gym (environment structure)
+-  NumPy (math and array operations)
 
-## 📌 Environment Features
+---
 
-- 18-DOF hexapod robot (3 joints per leg)
-- Observation space includes joint angles, velocities, base orientation, and linear velocity
-- Reward function encourages:
-  - Forward walking speed
-  - Energy efficiency
-  - Postural stability
+## ⚙️ Setup 
 
-## 🚀 Training Instructions
+1. **📥 Clone the Repository:**
 
-1. **Make sure the URDF path is valid:**
+   ```bash
+   git clone https://github.com/amannoufel/Reinforcement-Learning-Hexapod.git
+   cd Reinforcement-Learning-Hexapod
+   ```
 
-   Edit this path in both files:
+2. **📦 Install Required Packages:**
+
+   ```bash
+   pip install stable-baselines3[extra] pybullet gym numpy
+   ```
+
+3. **🛠️ Set the Path to Your Hexapod URDF File:**
+
+   Edit the following line in both `hexapod_reinforcement.py` and `run_model.py`:
+
    ```python
-   urdf_file = 'path to the hexa.urdf file'
+   urdf_file = '/absolute/path/to/your/hexa.urdf'
    ```
 
-2. **Run the training script:**
-   ```bash
-   python hexapod_reinforcement.py
-   ```
+   Ensure the path is correct and the URDF file exists.
 
-   - This will spawn 4 parallel environments for faster training
-   - Checkpoints will be saved in `./models/`
-   - TensorBoard logs are stored in `./tensorboard/`
+---
 
-3. **Evaluate the trained model and generate video:**
-   ```bash
-   python run_model.py
-   ```
+## 🚀 Training the Hexapod
 
-   - Videos will be saved in the `./videos/` folder
+Run the training script:
 
-## 📊 TensorBoard (Optional)
+```bash
+python hexapod_reinforcement.py
+```
 
-To visualize training logs:
+This will:
+
+-  Initialize the simulation environment.
+-  Train the robot using the SAC algorithm.
+-  Save checkpoints in the `./models/` directory.
+-  Log training data for TensorBoard in `./tensorboard/`.
+
+---
+
+## 🎥 Evaluating the Trained Model
+
+After training (or if you have a saved model), run:
+
+```bash
+python run_model.py
+```
+
+This will:
+
+-  Load the trained model.
+-  Render the hexapod walking in the GUI.
+-  Save a video to the `./videos/` directory.
+
+---
+
+## 📊 Monitoring Training Progress
+
+Track the reward and performance using TensorBoard:
+
 ```bash
 tensorboard --logdir=./tensorboard/
 ```
 
-## 🔒 Dependencies
+---
 
-Install the required Python packages:
 
-```bash
-pip install stable-baselines3[extra] pybullet gym numpy
+## 🧠 Reward Function (Simplified)
+
+The reward encourages:
+
+-  Fast forward velocity.
+-  Low energy consumption.
+-  Stability (less body tilt).
+
+```python
+reward = forward_velocity - 0.01 * energy_used - 0.1 * tilt
 ```
 
-## 🧠 Notes
 
-- Make sure your URDF file exists and is correctly formatted.
-- You can tweak the reward function, joint limits, or substeps to optimize behavior.
-- This setup is ideal for experimenting with continuous action space learning for multi-legged locomotion.
+##  Future Plans
 
+-  Add rough terrain and obstacles.
+-  Improve reward tuning.
+-  Explore domain randomization for sim-to-real transfer.
+-  Add GUI sliders for live control and testing.
+
+---
+
+**Train, Walk, Repeat! 🐜🤖**
+
+---
